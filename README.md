@@ -1,24 +1,47 @@
-# kafka-actions
+Docker Kafka Zookeeper ![Build Status](https://travis-ci.org/hey-johnnypark/docker-kafka-zookeeper.svg?branch=master)
+======================
+Docker image for Kafka message broker including Zookeeper
 
-This [GitHub Action](https://github.com/features/actions) sets up Bitnami Kafka instance.
-
-Inspired by https://github.com/getong/rabbitmq-action, @getong Thanks!
-
----------
-## Usage
-
-See [action.yml](action.yml)
-
-Basic:
-```yaml
-    - name: Start Bitname Kafka
-      uses: bbcCorp/kafka-actions@v1
+Build
+-----
+```
+$ docker build .
+[...]
+Successfully built 9b382d40bccc
 ```
 
-Now you should be able to publish to Kafka broker running at `localhost:9092` 
+Run container
+-------------
+```
+docker run -p 2181:2181 -p 9092:9092 -e ADVERTISED_HOST=localhost 9b382d40bccc
+```
 
+Test
+----
+Run Kafka console consumer
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic test
+```
 
----------
-## License
+Run Kafka console producer
+```
+kafka-console-producer --broker-list localhost:9092 --topic test
+test1
+test2
+test3
+```
 
-The scripts and documentation in this project are released under the [MIT License](LICENSE)
+Verify that messages have been received in console consumer
+```
+test1
+test2
+test3
+```
+
+Get from Dockerhub
+------------------
+https://hub.docker.com/r/johnnypark/kafka-zookeeper/
+
+Credits
+-------
+Originally cloned and inspired by https://github.com/spotify/docker-kafka
